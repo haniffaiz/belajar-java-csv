@@ -77,5 +77,22 @@ public class CSVTest {
         System.out.println(csv);
 
     }
+
+    @Test
+    void createCSVWithTab() throws IOException {
+        StringWriter writer = new StringWriter();
+
+        CSVFormat format = CSVFormat.TDF.builder()
+                .setHeader("First Name","Last Name","Age")
+                .build();
+        CSVPrinter printer = new CSVPrinter(writer, format);
+        printer.printRecord("Hanif","Faiz",26);
+        printer.printRecord("Haikal","Aziz",25);
+        printer.flush();
+
+        String csv = writer.getBuffer().toString();
+        System.out.println(csv);
+
+    }
 }
 
