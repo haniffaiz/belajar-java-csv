@@ -43,5 +43,39 @@ public class CSVTest {
         }
 
     }
+
+    @Test
+    void readCSVWithHeader() throws IOException {
+        Path path = Path.of("sample.csv");
+        Reader reader = Files.newBufferedReader(path);
+
+        CSVFormat format = CSVFormat.DEFAULT.builder().setHeader().build();
+        CSVParser parser = new CSVParser(reader, format);
+
+        for (CSVRecord record : parser){
+            System.out.println("First Name : "+record.get("First Name"));
+            System.out.println("Last Name : "+record.get("Last Name"));
+            System.out.println("Age : "+record.get("Age"));
+            System.out.println("---");
+        }
+
+    }
+
+    @Test
+    void createCSVWithHeader() throws IOException {
+        StringWriter writer = new StringWriter();
+
+        CSVFormat format = CSVFormat.DEFAULT.builder()
+                .setHeader("First Name","Last Name","Age")
+                .build();
+        CSVPrinter printer = new CSVPrinter(writer, format);
+        printer.printRecord("Hanif","Faiz",26);
+        printer.printRecord("Haikal","Aziz",25);
+        printer.flush();
+
+        String csv = writer.getBuffer().toString();
+        System.out.println(csv);
+
+    }
 }
 
